@@ -60,7 +60,7 @@ export default (apiUrl, httpClient = fetchJson) => {
             const { field, order } = params.sort;
             const query = {
                 sort: JSON.stringify([field, order]),
-                range: JSON.stringify([(page - 1) * perPage, (page * perPage) - 1]),
+                skip: JSON.stringify((page - 1) * perPage),
                 filter: JSON.stringify({ ...params.filter, [params.target]: params.id }),
             };
             url = `${apiUrl}/${resource}?${queryParameters(query)}`;
