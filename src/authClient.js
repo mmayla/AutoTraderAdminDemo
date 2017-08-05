@@ -16,8 +16,9 @@ export default (type, params) => {
       };
 
       return rp(options).then((json) => {
-        const username = json.username;
+        const { username, admin } = json;
         localStorage.setItem('username', username);
+        localStorage.setItem('admin', admin);
       }).catch((err) => {
         throw new Error('username or password does not exist');
       });
@@ -27,13 +28,15 @@ export default (type, params) => {
     // called when the user clicks on the logout button
     if (type === AUTH_LOGOUT) {
         localStorage.removeItem('username');
+        localStorage.removeItem('admin');
         return Promise.resolve();
     }
     // called when the API returns an error
     if (type === AUTH_ERROR) {
         const { status } = params;
         if (status === 401 || status === 403) {
-            localStorage.removeItem('username');
+          localStorage.removeItem('username');
+          localStorage.removeItem('admin');
             return Promise.reject();
         }
         return Promise.resolve();
