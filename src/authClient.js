@@ -4,11 +4,10 @@ import rp from 'request-promise';
 export default (type, params) => {
     // called when the user attempts to log in
     if (type === AUTH_LOGIN) {
-      console.log(process.env);
       const { username, password } = params;
       const options = {
         method: 'PUT',
-        uri: process.env.SERVER_URL+"/login",
+        uri: `${process.env.REACT_APP_SERVER_URL}/login`,
         body: {
           email: username,
           password,
@@ -20,10 +19,10 @@ export default (type, params) => {
         const username = json.username;
         localStorage.setItem('username', username);
       }).catch((err) => {
-        throw new Error(err);
+        throw new Error('username or password does not exist');
       });
+      return Promise.resolve();
     }
-    return Promise.resolve();
 
     // called when the user clicks on the logout button
     if (type === AUTH_LOGOUT) {
