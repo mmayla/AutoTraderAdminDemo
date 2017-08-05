@@ -4,10 +4,11 @@ import rp from 'request-promise';
 export default (type, params) => {
     // called when the user attempts to log in
     if (type === AUTH_LOGIN) {
+      console.log(process.env);
       const { username, password } = params;
       const options = {
         method: 'PUT',
-        uri: 'http://localhost:1337/login',
+        uri: process.env.SERVER_URL+"/login",
         body: {
           email: username,
           password,
@@ -23,7 +24,7 @@ export default (type, params) => {
       });
     }
     return Promise.resolve();
-    
+
     // called when the user clicks on the logout button
     if (type === AUTH_LOGOUT) {
         localStorage.removeItem('username');
